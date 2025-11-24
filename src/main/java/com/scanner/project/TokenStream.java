@@ -1,7 +1,6 @@
 package com.scanner.project;
 // TokenStream.java
 
-// Kaan Eren and Edmund Zhong
 // Implementation of the Scanner for JAY
 
 // This code DOES NOT implement a scanner for JAY yet. You have to complete
@@ -65,6 +64,7 @@ public class TokenStream {
 				while (!isEof && !isEndOfLine(nextChar)) {
 					nextChar = readChar();
 				}
+				skipWhiteSpace();
 				
 				
 			} else {
@@ -79,18 +79,18 @@ public class TokenStream {
 		// operators as well as 1-character ones.
 		
 		// = is not an operator, own test case
-		if(nextChar == '='){
-			t.setType("Other");
-			t.setValue(t.getValue() + nextChar);
-			nextChar = readChar();
-			if(nextChar == '='){
-				t.setType("Operator");
-				t.setValue(t.getValue() + nextChar);
-				nextChar = readChar();
-				return t;
-			}
-			return t;
-		}
+		// if(nextChar == '='){
+		// 	t.setType("Other");
+		// 	t.setValue(t.getValue() + nextChar);
+		// 	nextChar = readChar();
+		// 	if(nextChar == '='){
+		// 		t.setType("Operator");
+		// 		t.setValue(t.getValue() + nextChar);
+		// 		nextChar = readChar();
+		// 		return t;
+		// 	}
+		// 	return t;
+		// }
 
 		if (isOperator(nextChar)) {
 			t.setType("Operator");
@@ -160,6 +160,18 @@ public class TokenStream {
 				}
 
 				return t;
+			case '=':
+				// Look or &&
+				nextChar = readChar();
+				if (nextChar == '=') {
+					t.setValue(t.getValue() + nextChar);
+					nextChar = readChar();
+					return t;
+				} else {
+					t.setType("Other");
+				}
+
+				return t;
 
 			default: // all other operators
 				nextChar = readChar();
@@ -190,7 +202,7 @@ public class TokenStream {
 				// whats the point of isBoolean then
 				t.setType("Literal");
 			}
-			if (isEndOfToken(nextChar) || nextChar == '=') { // If token is valid, returns.
+			if (isEndOfToken(nextChar) ) { // If token is valid, returns.
 				return t;
 			}
 		}
@@ -203,7 +215,7 @@ public class TokenStream {
 			}
 			// An Integer-Literal is to be only followed by a space,
 			// an operator, or a separator.
-			if (isEndOfToken(nextChar) || nextChar == '=') {// If token is valid, returns.
+			if (isEndOfToken(nextChar) ) {// If token is valid, returns.
 				return t;
 			} 
 		}
@@ -289,7 +301,7 @@ public class TokenStream {
 		// Checks for characters that start operators
 		// TODO TO BE COMPLETED
 		// System.out.println("where is the c"+c);
-		return (c == '+' || c == '-' || c == '*' || c == '/' || c == '>'|| c=='<' || c=='|'|| c =='&'|| c=='!'||c==':');
+		return (c == '+' || c == '-' || c == '*' || c == '/' || c == '>'|| c=='<' || c=='|'|| c =='&'|| c=='!'||c==':'||c=='=');
 		// return false;
 	}
 
