@@ -13,8 +13,10 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-    - name: Scanner Test
       id: scanner-test
+    - name: Rebuild
+      run: ./gradlew clean build --refresh-dependencies
+    - name: Scanner Test
       uses: classroom-resources/autograding-command-grader@v1
       with:
         test-name: Scanner Test
